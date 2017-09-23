@@ -15,10 +15,6 @@
 #include "tad.h" //Arquivo com as declarações de estruturas e protótipos
 #include <locale.h>
 
-/*ESTRUTURA INICIAL DA HASH*/
-//Hash *tabela = NULL; //Criando o apontador da tabela para nulo
-//int contador_de_elementos = 0;
-
 /*FUNÇÕES PRINCIPAIS*/
 Hash *cria_Tabela(int m, Hash tabela[]) {
     /*
@@ -43,7 +39,6 @@ NODE *criar_No(int matricula, char *nome, int CPF) {
      * Função responsável para criar os nós da tabela
      *
      */
-
     NODE *novo = (NODE *) malloc(sizeof (NODE));
     if (novo == NULL) { // Verifica se o nó foi criado com sucesso
         printf("Memória insuficiente!\n"); // Não há espaço de memória
@@ -61,20 +56,20 @@ NODE *criar_No(int matricula, char *nome, int CPF) {
 Hash *inserir_Hash(Hash tabela[], int m) {
     /*
      *
-     * Função responsável por inserir elementos na hash
+     * Função responsável por inserir elementos na Hash
      *      
      */
     int CPF, matricula, idade;
     char nome[100];
 
-    printf("Digite o numero da matricula: ")
+    printf("Digite o numero da matricula: ");
     scanf("%d", &matricula);
     printf("Digite o nome: ");
     scanf("%[^\n]", nome);
     printf("Digite o valor do CPF: ");
     scanf("%d", &CPF);
 
-    NODE *novo = criar_No(int matricula, char *nome, int CPF);
+    NODE *novo = criar_No(matricula, nome, CPF);
 
     int indiceHash = matricula % m;
 
@@ -89,10 +84,9 @@ Hash *inserir_Hash(Hash tabela[], int m) {
 Hash *deletar_Hash(Hash tabela[], int matricula, int m) {
     /*
      *
-     * FUNÇÃO QUE ENCONTRA O BUCKET USANDO A CHAVE
+     * FUNÇÃO QUE ENCONTRA O BUCKET USANDO A CHAVE E DELETA O CONTEÚDO
      * 
      */
-
     int indiceHash = matricula % m;
 
     NODE *aux;
@@ -101,8 +95,8 @@ Hash *deletar_Hash(Hash tabela[], int matricula, int m) {
     if (aux == NULL) {
         printf("Esses dados não estão na tabela!\n");
     } else {
-        NODE *aux2 = aux; //auxiliar para nao perder referencia
-
+        NODE *aux2 = aux; //auxiliar para não perder referência
+        /*Procura os dados na tabela*/
         while (aux != NULL) {
             if (aux->matricula == matricula) {
                 if (aux == tabela[indiceHash].inicio) {
@@ -110,7 +104,7 @@ Hash *deletar_Hash(Hash tabela[], int matricula, int m) {
                 } else {
                     aux2->prox = aux->prox;
                 }
-
+                /*Diminui o contador de elementos da tabela e libera os dados*/
                 tabela[indiceHash].contador--;
                 free(aux);
                 printf("Deletado com sucesso!\n");
@@ -128,12 +122,14 @@ Hash *deletar_Hash(Hash tabela[], int matricula, int m) {
 }
 
 void imprime_No(NODE *no) {
-    /*Funcao para imprimir os dados do no*/
+    /*
+    *
+    *   Função para imprimir os dados do nó
+    *
+    */
     printf("Nome: %s\n", no->nome);
     printf("Numero Matricula? %d\n", no->matricula);
     printf("CPF: %d\n", no->CPF);
-
-    return;
 }
 
 int procura_Hash(Hash tabela[], int matricula, int m, int modifica) {
@@ -143,11 +139,11 @@ int procura_Hash(Hash tabela[], int matricula, int m, int modifica) {
      * 
      */
     int indiceHash = matricula % m;
-    int achou = 0;
-    int contador = 0;
+    int achou = 0; //variavel de controle
+    int contador = 0; //retorna a posição onde foi encontrado o elemento
 
     NODE *aux = tabela[indiceHash].inicio;
-    if (aux = NULL) {
+    if (aux == NULL) {
         printf("Não há dados correspondentes na tabela!\n");
     } else {
         while (aux != NULL) {
@@ -157,6 +153,9 @@ int procura_Hash(Hash tabela[], int matricula, int m, int modifica) {
             } else {
                 aux = aux->prox;
                 if (modifica == 1) {
+                    /*  O valor de modifica vai determinar se o elemento será modificado
+                    *   pela função modifica
+                    */
                     contador++;
                 }
             }
@@ -168,42 +167,47 @@ int procura_Hash(Hash tabela[], int matricula, int m, int modifica) {
         }
     }
 
-    return contador;
+    return achou;
 }
 
 Hash *modifica_Hash(Hash tabela[], int m) {
+    /*
+     *
+     *  FUNÇÃO QUE MODIFICA O VALOR DE UM ELEMENTO NA HASH
+     * 
+     */
     int CPF, matricula, idade, x;
     char nome[100];
-    
 
-    printf("Digite o numero da matricula a ser procurada: ")
+    printf("Digite o numero da matricula a ser procurada: ");
     scanf("%d", &matricula);
-    
-    x = procura_Hash(tabela[], matricula, m, 1);
-    
+
+    /*Recebe o valor de procura*/
+    x = procura_Hash(tabela, matricula, m, 1);
+
     int indiceHash = matricula % m;
     NODE *aux = tabela[indiceHash].inicio;
-    
+
     if(x == -1) {
         printf("Nao eh possivel modificar essa matricula!\n");
         return tabela;
     }
-    
+
     printf("Dados serao modificados!\n");
     printf("Digite o nome: ");
     scanf("%[^\n]", nome);
     printf("Digite o valor do CPF: ");
     scanf("%d", &CPF);
-    
+
     for(int i = 0; i < x-1; i++) {
         aux = aux->prox;
     }
-    
+
     aux->CPF = CPF;
     strcpy(aux->nome, nome);
     printf("Dados modificados!");
     imprime_No(aux);
-    
+
     return tabela;
 }
 
@@ -211,6 +215,7 @@ Hash *modifica_Hash(Hash tabela[], int m) {
  * EXECUÇÃO DO PROGRAMA
  */
 int main(int argc, char** argv) {
+    setlocale(LC_ALL, "Portuguese");
     int m, i;
 
     /*Determinando tamanho da Hash*/
@@ -235,4 +240,3 @@ int main(int argc, char** argv) {
 
     return (EXIT_SUCCESS);
 }
-
