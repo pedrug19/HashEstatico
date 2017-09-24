@@ -45,12 +45,17 @@ typedef struct quadros {
     struct quadros *ant;
 } QUAD;
 
+typedef struct pool {
+    struct quadros *livres;
+    struct quadros *usados;
+} POOL;
+
 /*
  * PROTÓTIPOS DE FUNÇÕES
  */
 NODE *criar_No(int matricula, char *nome, int CPF);
 Hash *cria_Tabela(int m, Hash tabela[]);
-PAG *cria_Pagina();
+PAG *cria_Pagina(int m, Hash tabela[]);
 void LRU();
 Hash *inserir_Hash(Hash tabela[], int m);
 Hash *deletar_Hash(Hash tabela[], int matricula, int m);

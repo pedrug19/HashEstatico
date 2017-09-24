@@ -16,6 +16,43 @@
 #include <locale.h>
 
 /*FUNÇÕES PRINCIPAIS*/
+PAG *cria_Pagina(int m, Hash tabela[]) {
+    /*
+     *
+     *  FUNÇÃO QUE CRIA PÁGINAS
+     *
+     */
+    int i;
+    PAG *aux = NULL;
+
+    for(i = 0; i < 3; i++) {
+        PAG *novo = (PAG *) malloc(sizeof(PAG));
+        if(novo == NULL) {
+            printf("Memória insuficiente!\n");
+            exit(1);
+        }
+
+        novo->dirty = 0;
+        novo->pin_count = 0;
+        if(aux == NULL) {
+            aux = novo;
+            aux->ant = NULL;
+            aux->prox = NULL;
+            aux->inicio = cria_Tabela(m, tabela);
+        } else {
+            if(aux->ant = NULL) {
+                novo->ant = aux;
+                aux->prox = novo;
+
+                /*TODO: CONTINUAR A FAZER A LOGICA DISSO*/
+            } else {
+                /*TODO: FAZER O RESTO*/
+            }
+        }
+    }
+
+}
+
 Hash *cria_Tabela(int m, Hash tabela[]) {
     /*
      *
@@ -39,7 +76,7 @@ NODE *criar_No(int matricula, char *nome, int CPF) {
      * Função responsável para criar os nós da tabela
      *
      */
-    NODE *novo = (NODE *) malloc(sizeof (NODE));
+    NODE *novo = (NODE *) malloc(sizeof(NODE));
     if (novo == NULL) { // Verifica se o nó foi criado com sucesso
         printf("Memória insuficiente!\n"); // Não há espaço de memória
         exit(1);
@@ -188,7 +225,7 @@ Hash *modifica_Hash(Hash tabela[], int m) {
     int indiceHash = matricula % m;
     NODE *aux = tabela[indiceHash].inicio;
 
-    if(x == -1) {
+    if (x == -1) {
         printf("Nao eh possivel modificar essa matricula!\n");
         return tabela;
     }
@@ -199,7 +236,7 @@ Hash *modifica_Hash(Hash tabela[], int m) {
     printf("Digite o valor do CPF: ");
     scanf("%d", &CPF);
 
-    for(int i = 0; i < x-1; i++) {
+    for (int i = 0; i < x - 1; i++) {
         aux = aux->prox;
     }
 
@@ -214,9 +251,14 @@ Hash *modifica_Hash(Hash tabela[], int m) {
 /*
  * EXECUÇÃO DO PROGRAMA
  */
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     setlocale(LC_ALL, "Portuguese");
     int m, i;
+
+    /*Criando o cabeçalho da Pool de Buffers*/
+    POOL *cabecalho = (POOL *) malloc(sizeof(POOL));
+    cabecalho->livres = NULL;
+    cabecalho->usados = NULL;
 
     /*Determinando tamanho da Hash*/
     printf("Escolha um tamanho para a Hash: \n");
@@ -232,11 +274,43 @@ int main(int argc, char** argv) {
     table = cria_Tabela(m, tabela); //Preenchendo tabela.inicio com NULL
     int opc = 0;
 
-    /*while (opc != -1) {
+    while (opc != -1) {
         printf("Selecione suas opções: \n");
+        printf("1 - Cadastrar aluno");
+        printf("2 - Alterar informações de aluno");
+        printf("3 - Remover aluno");
+        printf("4 - Exibir informações de aluno");
+        printf("5 - Exibir pool de buffers");
+        printf("6 - Exibir paginas");
+        printf("-1 - Sair");
+        scanf("%d", &opc);
 
+        switch(opc) {
+            case 1:
 
-    }*/
+                break;
+            case 2:
+
+                break;
+            case 3:
+
+                break;
+            case 4:
+
+                break;
+            case 5:
+
+                break;
+            case 6:
+
+                break;
+            case -1:
+
+                break;
+
+        }
+
+    }
 
     return (EXIT_SUCCESS);
 }
