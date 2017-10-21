@@ -1,0 +1,48 @@
+!_TAG_FILE_SORTED	2	/0=unsorted, 1=sorted, 2=foldcase/
+ant	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct paginas *ant;$/;"	m	language:C++	struct:paginas	typeref:struct:paginas::paginas
+ant	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct quadros *ant;$/;"	m	language:C++	struct:quadros	typeref:struct:quadros::quadros
+contador	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    int contador;$/;"	m	language:C++	struct:hash
+CPF	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    int CPF;$/;"	m	language:C++	struct:node
+criar_No	/home/pedrug/CLionProjects/HashEstatico/main.c	/^NODE *criar_No(int matricula, char *nome, int CPF) {$/;"	f	language:C++
+criar_No	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^NODE *criar_No(int matricula, char *nome, int CPF);$/;"	p	language:C++
+cria_Pagina	/home/pedrug/CLionProjects/HashEstatico/main.c	/^PAG *cria_Pagina(int m, Hash tabela[]) {$/;"	f	language:C++
+cria_Pagina	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^PAG *cria_Pagina(int m, Hash tabela[]);$/;"	p	language:C++
+cria_Tabela	/home/pedrug/CLionProjects/HashEstatico/main.c	/^Hash *cria_Tabela(int m, Hash tabela[]) {$/;"	f	language:C++
+cria_Tabela	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^Hash *cria_Tabela(int m, Hash tabela[]);$/;"	p	language:C++
+deletar_Hash	/home/pedrug/CLionProjects/HashEstatico/main.c	/^Hash *deletar_Hash(Hash tabela[], int matricula, int m) {$/;"	f	language:C++
+deletar_Hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^Hash *deletar_Hash(Hash tabela[], int matricula, int m);$/;"	p	language:C++
+dirty	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    int dirty;$/;"	m	language:C++	struct:paginas
+hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^typedef struct hash {$/;"	s	language:C++
+Hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^} Hash;$/;"	t	language:C++	typeref:struct:hash
+imprime_Hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^void imprime_Hash();$/;"	p	language:C++
+imprime_No	/home/pedrug/CLionProjects/HashEstatico/main.c	/^void imprime_No(NODE *no) {$/;"	f	language:C++
+imprime_No	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^void imprime_No(NODE *no);$/;"	p	language:C++
+inicio	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct hash *inicio;$/;"	m	language:C++	struct:paginas	typeref:struct:paginas::hash
+inicio	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct node *inicio;$/;"	m	language:C++	struct:hash	typeref:struct:hash::node
+inicio	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct paginas *inicio;$/;"	m	language:C++	struct:quadros	typeref:struct:quadros::paginas
+inicioPag	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^PAG *inicioPag = NULL;$/;"	v	language:C++
+inserir_Hash	/home/pedrug/CLionProjects/HashEstatico/main.c	/^Hash *inserir_Hash(Hash tabela[], int m) {$/;"	f	language:C++
+inserir_Hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^Hash *inserir_Hash(Hash tabela[], int m);$/;"	p	language:C++
+livres	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct quadros *livres;$/;"	m	language:C++	struct:pool	typeref:struct:pool::quadros
+LRU	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^void LRU();$/;"	p	language:C++
+main	/home/pedrug/CLionProjects/HashEstatico/main.c	/^int main(int argc, char **argv) {$/;"	f	language:C++
+matricula	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    int matricula;$/;"	m	language:C++	struct:node
+modifica_Hash	/home/pedrug/CLionProjects/HashEstatico/main.c	/^Hash *modifica_Hash(Hash tabela[], int m) {$/;"	f	language:C++
+modifica_Hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^Hash *modifica_Hash(Hash tabela[], int m);$/;"	p	language:C++
+node	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^typedef struct node {$/;"	s	language:C++
+NODE	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^} NODE;$/;"	t	language:C++	typeref:struct:node
+nome	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    char nome[100];$/;"	m	language:C++	struct:node
+PAG	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^} PAG;$/;"	t	language:C++	typeref:struct:paginas
+paginas	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^typedef struct paginas {$/;"	s	language:C++
+pin_count	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    int pin_count;$/;"	m	language:C++	struct:paginas
+pool	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^typedef struct pool {$/;"	s	language:C++
+POOL	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^} POOL;$/;"	t	language:C++	typeref:struct:pool
+procura_Hash	/home/pedrug/CLionProjects/HashEstatico/main.c	/^int procura_Hash(Hash tabela[], int matricula, int m, int modifica) {$/;"	f	language:C++
+procura_Hash	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^int procura_Hash(Hash tabela[], int matricula, int m, int modifica);$/;"	p	language:C++
+prox	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct node *prox;$/;"	m	language:C++	struct:node	typeref:struct:node::node
+prox	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct paginas *prox;$/;"	m	language:C++	struct:paginas	typeref:struct:paginas::paginas
+prox	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct quadros *prox;$/;"	m	language:C++	struct:quadros	typeref:struct:quadros::quadros
+QUAD	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^} QUAD;$/;"	t	language:C++	typeref:struct:quadros
+quadros	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^typedef struct quadros {$/;"	s	language:C++
+TAD_H	/home/pedrug/CLionProjects/HashEstatico/tad.h	12;"	d	language:C++
+usados	/home/pedrug/CLionProjects/HashEstatico/tad.h	/^    struct quadros *usados;$/;"	m	language:C++	struct:pool	typeref:struct:pool::quadros

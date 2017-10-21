@@ -64,6 +64,8 @@ int procura_Hash(Hash tabela[], int matricula, int m, int modifica);
 void imprime_No(NODE *no);
 void imprime_Hash();
 
+/* ESTRUTURAS AUXILIARES  */
+PAG *inicioPag = NULL;
 
 #ifdef __cplusplus
 }

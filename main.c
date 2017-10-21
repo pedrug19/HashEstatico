@@ -6,7 +6,7 @@
  *            Luis Marcello
  * 
  * Implementação de Hashing estático
- * Compilado e testado em Arch Linux e Windows 10
+ * Compilado e testado em Arch Linux, Fedora e Windows 10
  */
 
 #include <stdio.h>
@@ -23,7 +23,7 @@ PAG *cria_Pagina(int m, Hash tabela[]) {
      *
      */
     int i;
-    PAG *aux = NULL;
+    PAG *aux = inicioPag;
 
     for(i = 0; i < 3; i++) {
         PAG *novo = (PAG *) malloc(sizeof(PAG));
@@ -34,16 +34,18 @@ PAG *cria_Pagina(int m, Hash tabela[]) {
 
         novo->dirty = 0;
         novo->pin_count = 0;
+	novo->prox = NULL;
+	novo->inicio = cria_Tabela(m, tabela[]);
         if(aux == NULL) {
-            aux = novo;
             aux->ant = NULL;
-            aux->prox = NULL;
-            aux->inicio = cria_Tabela(m, tabela);
+	    inicioPag = novo;
+	    aux = novo;
         } else {
             if(aux->ant = NULL) {
                 novo->ant = aux;
                 aux->prox = novo;
-
+		novo->prox = NULL;
+		aux = novo;
                 /*TODO: CONTINUAR A FAZER A LOGICA DISSO*/
             } else {
                 /*TODO: FAZER O RESTO*/
@@ -287,7 +289,7 @@ int main(int argc, char **argv) {
 
         switch(opc) {
             case 1:
-
+                printf("Cadastrando aluno.\n");
                 break;
             case 2:
 
