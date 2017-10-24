@@ -215,7 +215,7 @@ Hash *modifica_Hash(Hash tabela[], int m) {
    *  FUNÇÃO QUE MODIFICA O VALOR DE UM ELEMENTO NA HASH
    * 
    */
-  int CPF, matricula, idade, x;
+  int CPF, matricula, x;
   char nome[100];
 
   printf("Digite o numero da matricula a ser procurada: ");
@@ -255,7 +255,7 @@ Hash *modifica_Hash(Hash tabela[], int m) {
  */
 int main(int argc, char **argv) {
   setlocale(LC_ALL, "Portuguese");
-  int m, i;
+  int m;
 
   /*Criando o cabeçalho da Pool de Buffers*/
   POOL *cabecalho = (POOL *) malloc(sizeof(POOL));
@@ -268,7 +268,7 @@ int main(int argc, char **argv) {
 
   /*Declarando estrutura da tabela*/
   Hash tabela[m]; //Tabela Hash
-  Hash *table; //apontador para a tabela
+  Hash *table = tabela; //apontador para a tabela
 
   /*O apontador table irá se responsabilizar por passar
    * a tabela para outras funções*/
