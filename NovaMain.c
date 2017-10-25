@@ -9,11 +9,10 @@
  * Compilado e testado em Arch Linux e Windows 10
  */
 
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-//#include "tad.h" //Arquivo com as declarações de estruturas e protÃ³tipos
-#include "locale.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <locale.h>
 
 int m = 0;
 /*
@@ -77,42 +76,30 @@ typedef struct pool {
 /*FUNÇÕES PRINCIPAIS*/
 
 POOL *criaPool(POOL *pool) {
+    pool->inicio = NULL;
+    pool->fim = NULL;
 
-    NoPool *primeiro = (NoPool *) malloc(sizeof(NoPool));
-    NoPool *segundo = (NoPool *) malloc(sizeof(NoPool));
-    NoPool *terceiro = (NoPool *) malloc(sizeof(NoPool));
-    NoPool *quarto = (NoPool *) malloc(sizeof(NoPool));
+    for(int i = 0; i < 4; i++) {
+        NoPool *novo = (NoPool *) malloc(sizeof(NoPool));
+        if(novo == NULL) {
+            printf("Erro de memoria!");
+            exit(1);
+        }
+        novo->dirty = 0;
+        novo->pin_count = 0;
+        novo->pag = NULL;
+        novo->id = i+1;
+        novo->maisAntigo = -1;
+        novo->prox = NULL;
 
-    pool->inicio = primeiro;
-    pool->fim = quarto;
-
-    primeiro->dirty = 0;
-    primeiro->pin_count = 0;
-    primeiro->pag = NULL;
-    primeiro->id = 1;
-    primeiro->maisAntigo = -1;// se estiver vazia é -1
-    primeiro->prox = segundo;
-
-    segundo->dirty = 0;
-    segundo->pin_count = 0;
-    segundo->pag = NULL;
-    segundo->id = 2;
-    segundo->maisAntigo = -1;// se estiver vazia é -1
-    segundo->prox = terceiro;
-
-    terceiro->dirty = 0;
-    terceiro->pin_count = 0;
-    terceiro->pag = NULL;
-    terceiro->id = 3;
-    terceiro->maisAntigo = -1;// se estiver vazia é -1
-    terceiro->prox = quarto;
-
-    quarto->dirty = 0;
-    quarto->pin_count = 0;
-    quarto->pag = NULL;
-    quarto->id = 4;
-    quarto->maisAntigo = -1;// se estiver vazia é -1
-    quarto->prox = primeiro;
+        if(pool->inicio == NULL) {
+            pool->inicio = novo;
+            pool->fim = novo;
+        } else {
+            pool->fim->prox = novo;
+            pool->fim = novo;
+        }
+    }
 
     return pool;
 }
@@ -129,28 +116,11 @@ LISTA *funcaoLRU(LISTA *lru, POOL *pool){
         //LISTA
     }
 }
-/* Acho que tem algum erro nessas estruturas*/
 
 /*TODO: RESOLVER ESSES ERROS E DISCUTIR*/
 
 POOL *procuraPool(POOL *pool, Hash *tabela, int id, PAG *pag){
-    int achou = 0;
-    NoPool *aux = pool->inicio;
 
-    /*POOL precisa da Página*/
-    while(aux != NULL) {
-        if(aux->id == id) {
-            achou = 1;
-        }
-
-        aux = aux->prox;
-    }
-
-    if(achou) {
-        aux->pin_count++;
-    } else {
-        printf("Não se encontra esse registro\n\n");
-    }
 
 }
 
