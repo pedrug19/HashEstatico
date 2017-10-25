@@ -15,6 +15,7 @@
 #include <locale.h>
 
 int m = 0, Ncheio = 0, deletar;
+int contadorPool = 4;
 
 /*
  * DECLARAÇÕES DE ESTRUTURAS
@@ -60,6 +61,11 @@ typedef struct noDaPool {
     struct noDaPool *prox;
 } NoPool;
 
+typedef struct alglru{
+    NoPool *no;
+    struct alglru *prox;
+} LRU;
+
 typedef struct cabecalho {
     LISTA *disponivel;
     LISTA *cheio;
@@ -70,6 +76,10 @@ ALUNO *alterado;
 /*VARIAVEIS CONTROLE DA POOL*/
 NoPool *inicioPool = NULL;
 NoPool *fimPool = NULL;
+
+/*LRU*/
+LRU *inicioLRU = NULL;
+LRU *fimLRU = NULL;
 
 /*FUNÇÕES PRINCIPAIS*/
 
@@ -82,20 +92,80 @@ void criaPool() {
             exit(1);
         }
 
+        LRU *novoLRU = (LRU *) malloc(sizeof(LRU));
+        if (novo == NULL) {
+            printf("Erro de memoria!\n");
+            exit(1);
+        }
+
         novo->dirty = 0;
         novo->pin_count = 0;
         novo->pag = NULL;
-        novo->id = 1;
+        novo->id = i+1;
         novo->prox = NULL;
+        novoLRU->no = novo;
+        novoLRU->prox = NULL;
 
         if (inicioPool == NULL) {
             inicioPool = novo;
+            inicioLRU = novoLRU;
             fimPool = novo;
+            fimLRU = novoLRU;
         } else {
             fimPool->prox = novo;
+            fimLRU->prox = novoLRU;
             fimPool = novo;
+            fimLRU = novoLRU;
         }
     }
+}
+
+LRU *insereLRU(LRU *novo) {
+    if( inicioLRU == NULL) {
+        inicioLRU = novo;
+        fimLRU = novo;
+    } else {
+        fimLRU->prox = novo;
+        fimLRU = novo;
+    }
+}
+
+NoPool *procuraeRemove(NoPool *remove) {
+    LRU *aux = inicioLRU;
+    LRU *aux2 = inicioLRU;
+    int achou = 0;
+
+    while(aux != NULL){
+        if(aux->no == remove) {
+            if(aux == inicioLRU) {
+                aux-> no = removeLRU();
+                break;
+            }
+
+            if(aux == fimLRU) {
+                while(aux2->prox != fimLRU) {
+                    fimLRU = aux2->prox;
+                    aux2->prox = NULL;
+                }
+            }
+        }
+
+        aux = aux->prox;
+    }
+}
+
+NoPool *removeLRU() {
+    LRU *aux = inicioLRU;
+    if(inicioLRU == NULL) {
+        printf("\nNão há elementos a serem removidos no LRU\n");
+    } else {
+        if(fimLRU == inicioLRU) {
+            fimLRU = inicioLRU->prox;
+        }
+        inicioLRU = inicioLRU->prox;
+    }
+
+    return aux->no;
 }
 
 void exibePool() {
@@ -136,6 +206,9 @@ NoPool *inserePool(int matricula, CABECALHO *listas) {
                     if (aux->pag->reg[i].matricula == matricula) { /* Se encontrar o registro, mostrará */
                         printf("\nRegistro encontrado!\n");
                         printf("\nIncrementando pin_count!\n");
+                        if(aux->pin_count == 0) {
+                            aux = procuraeRemove(aux);
+                        }
                         aux->pin_count++;
                         printf("\nRegistro:\n");
                         printf("---------------------------------------------------------------------------------------");
@@ -205,7 +278,7 @@ NoPool *inserePool(int matricula, CABECALHO *listas) {
 
     if (!achou) {
         aux = inicioPool;
-        aux2 = listas->disponivel;
+        aux2 = listas->disponivel->inicio;
         mudanca = 0;
     }
 
@@ -223,6 +296,11 @@ NoPool *inserePool(int matricula, CABECALHO *listas) {
     while(aux != NULL && pin == 0) {
         if(aux->pin_count == 0) {
             pin = 1;
+            LRU *novo = (LRU *) malloc(sizeof(LRU));
+            novo->no = aux;
+            novo->prox = NULL;
+            inicioLRU = insereLRU(novo);
+
             /* PROCURANDO NAS LISTAS */
             while (aux2 != NULL && achou == 0) {
                 if (aux2->posi == matricula % m) {
@@ -353,6 +431,29 @@ Hash *insereTabela(Hash *tabela) {
     return tabela;
 }
 
+NoPool *deletaPool(){
+    NoPool *aux = inicioPool;
+    int achou = 0;
+
+    while(aux != NULL) {
+        if(aux->pag->posi == deletar % m) {
+            for(int i = 0; i < 3; i++) {
+                if(aux->pag->reg[i].matricula == deletar) {
+                    aux->pag = NULL;
+                    aux->pin_count = 0;
+                    aux->dirty = 0;
+                    printf("\nRemovido da pool!\n");
+                    break;
+                }
+            }
+        }
+
+        aux = aux->prox;
+    }
+
+    return inicioPool;
+}
+
 
 Hash *deletar_Hash(Hash *tabela) {
 
@@ -407,6 +508,12 @@ void decrementaPin(int pin) {
         if (aux->id == pin) {
             if (aux->pin_count > 0) {
                 aux->pin_count--;
+                if(aux->pin_count == 0) { //insere o quadro no lru
+                    LRU *novo = (LRU *) malloc(sizeof(LRU));
+                    novo->no = aux;
+                    novo->prox = NULL;
+                    inicioLRU = insereLRU(novo);
+                }
                 feito = 1;
                 break;
             } else {
@@ -551,10 +658,16 @@ PAG *criaPagina(int posi) {
         printf("Memória insuficiente!\n");
         exit(1);
     }
+
+    LRU *novoLRU = (LRU *) malloc(sizeof(LRU));
     aux_pag->prox = NULL;
     aux_pag->ant = NULL;
     aux_pag->posi = posi;
     aux_pag->quantidade = 0;
+    novoLRU->no->dirty = 0;
+    novoLRU->no->pin_count = 0;
+    novoLRU->no->prox = NULL;
+    novoLRU->no->id = contadorPool++;
 
     for (i = 0; i < 3; i++) {
         aux_pag->reg[i].CPF = 0000;
@@ -562,6 +675,10 @@ PAG *criaPagina(int posi) {
         strcpy(aux_pag->reg[i].nome, "VAZIO");
         strcpy(aux_pag->reg[i].sexo, "VAZIO");
     }
+
+    novoLRU->no->pag = aux_pag;
+
+    inicioLRU = insereLRU(novoLRU);
 
     return aux_pag;
 
@@ -709,6 +826,8 @@ CABECALHO *deletaListas(CABECALHO *listas) {
         }
         aux_pag = aux_pag->prox;
     } while (aux_pag->prox != NULL);
+
+    inicioPool = deletaPool();
 
     if (achou == 0) printf("\t|#|> Aluno nao encontrado!\n");
     system("pause");
@@ -933,6 +1052,7 @@ int main(int argc, char **argv) {
             case 3:
                 system("cls");
                 tabela = alterarTabela(tabela);
+                cabecalho = alteraListas(cabecalho);
                 system("pause");
                 break;
             case 4:
